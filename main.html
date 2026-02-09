@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link 
+    href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500&display=swap" 
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    rel="stylesheet">
+
+  <style>
+    /* ---- Base layout ---- */
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Quicksand', sans-serif;
+      background: #111;
+      color: #eee;
+      line-height: 1.6;
+      height: 100dvh;
+      overflow: hidden;
+
+      > h1 {
+        position: fixed;
+        width: 100%;
+        text-align: center;
+      }
+
+      background-image: url("background.JPG");
+      background-size: cover;       /* fills screen */
+      background-position: center;  /* keeps it centered */
+      background-repeat: no-repeat;
+      background-attachment: fixed; /* optional, nice effect */
+    }
+
+    /* Dimming Backround Picture */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: -1;
+    }
+
+
+    .body-container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 20px;
+      justify-content: center;
+      display: flex;
+      flex-direction: column;
+      height: 100dvh;
+    }
+
+    /* ---- Story text ---- */
+    #story-text {
+      font-size: 1.1rem;
+      margin-bottom: 24px;
+      white-space: pre-wrap;
+    }
+
+    .typewriter-cursor::after {
+      content: "▍";
+      margin-left: 2px;
+      animation: blink 1s step-start infinite;
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+
+    /* ---- Choices ---- */
+    .choices {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    button {
+      background: transparent;
+      border: none;
+      border-radius: 8px;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      cursor: pointer;
+
+      & > img {
+        margin: -16px;
+      }
+    }
+
+    button:hover {
+      opacity: 0.65;
+    }
+
+    button:active {
+      background: #3a3a3a;
+      transform: scale(0.95);
+    }
+
+    /* ---- Small screens ---- */
+    @media (max-width: 480px) {
+      #story-text {
+        font-size: 1rem;
+      }
+
+      button {
+        font-size: 0.95rem;
+      }
+    }
+
+    /* ---- Overlay base ---- */
+    .overlay {
+      position: fixed;
+      padding: 1.5rem;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: background 400ms ease, opacity 400ms ease;
+      z-index: 100;
+    }
+
+    /* ---- Letter (modal) base ---- */
+    .modal {
+      background: #e7c9a9;
+      color: #222;
+      border-radius: 14px;
+      padding: 24px;
+      max-width: 500px;
+      width: calc(100% - 40px);
+      position: relative;
+
+      /* animation start state */
+      transform: translateY(14px) scale(0.96);
+      opacity: 0;
+
+      transition:
+        transform 400ms cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 350ms ease;
+
+      box-shadow:
+        0 8px 20px rgba(0,0,0,0.25),
+        inset 0 0 0 1px rgba(0,0,0,0.05);
+
+    }
+
+    /* ---- Text inside the letter ---- */
+    #overlay-text {
+      opacity: 0;
+      transition: opacity 300ms ease;
+      transition-delay: 200ms;
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+
+    /* ---- Active state (open) ---- */
+    .overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 1.5rem;
+    }
+
+    .overlay.active .modal {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+
+    .overlay.active #overlay-text {
+      opacity: 1;
+    }
+
+    .close {
+      position: absolute;
+      top: 8px;
+      right: 14px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      opacity: 0.7;
+    }
+
+    .close:hover {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>hello friend</h1>
+  <div class="body-container">
+    <div></div>
+    <div id="story-text"></div>
+    <div class="choices">
+      <button onclick="
+        openMessage(0);
+        this.querySelector('img').src='open-envelope.png'
+      ">
+        <img src="envelope.png"/>
+      </button>
+      <button onclick="openMessage(1); this.querySelector('img').src='open-envelope.png'">
+        <img src="envelope.png"/>
+      </button>
+      <button onclick="openMessage(2); this.querySelector('img').src='open-envelope.png'">
+        <img src="envelope.png"/>
+      </button>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlay" onclick="closeOverlay(event)">
+    <div class="modal">
+      <div class="close" onclick="closeOverlay()">✕</div>
+      <div id="overlay-text"></div>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+
+</body>
+</html>
