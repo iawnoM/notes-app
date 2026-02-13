@@ -21,33 +21,6 @@ function closeOverlay(event) {
   }
 }
 
-function showEnvelopes() {
-  document.getElementById('envelopes').classList.remove('hidden');
-  document.getElementById('tap-hint').classList.remove('hidden');
-  document.getElementById('tap-hint').classList.add('tap-hint');
-}
-
-// typewriter text
-function typeText(element, text) {
-  element.textContent = "";
-  element.classList.add("typewriter-cursor");
-
-  let index = 0;
-
-  function type() {
-    if (index < text.length) {
-      element.textContent += text.charAt(index);
-      index++;
-      setTimeout(type, 25);
-    } else {
-      element.classList.remove("typewriter-cursor");
-      showEnvelopes();
-    }
-  }
-
-  type();
-}
-
 function keyWatcher() {
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
@@ -57,7 +30,7 @@ function keyWatcher() {
 
   const content = document.getElementById('content');
   document.addEventListener('keydown', function(event) {
-    if (event.key === 'Enter' && content.classList.contains('hidden')) {
+    if (event.key === 'Enter' && !content.classList.contains('visible')) {
       password(); 
     }
   })
@@ -69,14 +42,15 @@ function password() {
   const content = document.getElementById('content');
   const helperText = document.getElementById('helper-text');
 
-  const validAnswers = ['quesadillas', 'quesadilla', 'cheese quesadilla', 'a'];
-  if (validAnswers.includes(input.value)) {
-    container[0].classList.add('hidden');
-    content.classList.remove('hidden');
-
-    typeText(text, "Hi Trinidad :) In a normal scenario I would give you a handwritten note, but thats a bit difficult given the current situation and I hope the boys have planned a awesome day for the team! As the end of outreach nears, I wanted to share some things to encourage you - below are some notes on a few attributes that I admire about you.");
-  } else {
-    helperText.classList.remove('hidden');
+  const passwords = ['quesadillas', 'quesadilla', 'cheese quesadilla', 'cheese quesadillas', 'anya'];
+  for (const answer of passwords) {
+    if (input.value.toLowerCase() === answer) {
+      container[0].classList.add('hidden');
+      content.classList.add('visible');
+      text.textContent =  "Hi Trinidad :) In a normal scenario I would give you a handwritten note, but thats a bit difficult given the current situation and I hope the boys have planned a awesome day for the team! As the end of outreach nears, I wanted to share some things to encourage you - below are some notes on a few attributes that I admire about you.";
+    } else {
+      helperText.classList.remove('hidden');
+    }
   }
 }
 

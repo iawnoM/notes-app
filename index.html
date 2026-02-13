@@ -226,6 +226,19 @@
       }
     }
 
+    .fade-in {
+      opacity: 0;
+      transform: translateY(8px);
+      transition:
+        opacity 2500ms ease,
+        transform 2500ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     .hidden {
       display: none;
     }
@@ -244,9 +257,9 @@
       <p id="helper-text" style="color: red;" class="hidden">Incorrect Answer</p>
     </div>
     
-    <div id="content" class="text-content hidden">
+    <div id="content" class="text-content fade-in">
       <div id="story-text"></div>
-      <div id="envelopes" class="choices hidden">
+      <div id="envelopes" class="choices ">
         <button onclick="
           openMessage(0);
           this.querySelector('img').src='open-envelope.png'
@@ -260,7 +273,7 @@
           <img src="envelope.png"/>
         </button>
       </div>
-      <span id="tap-hint" class="hidden">tap envelopes to open &#10548;</span>
+      <span id="tap-hint">tap envelopes to open &#10548;</span>
     </div>
   </div>
 
