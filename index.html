@@ -57,7 +57,6 @@
     /* ---- Story text ---- */
     #story-text {
       font-size: 1.1rem;
-      margin-bottom: 24px;
       white-space: pre-wrap;
     }
 
@@ -74,9 +73,20 @@
     }
 
     /* ---- Choices ---- */
+    .text-content {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+
+      & .tap-hint {
+        display: flex;
+        justify-content: center;
+      }
+    }
+
     .choices {
       display: flex;
-      justify-content: space-between;
+      justify-content: space-evenly;
     }
 
     button {
@@ -133,7 +143,7 @@
       background: #e7c9a9;
       color: #222;
       border-radius: 14px;
-      padding: 24px;
+      padding: 1.5rem 2rem 2rem 2rem;
       max-width: 500px;
       width: calc(100% - 40px);
       position: relative;
@@ -190,33 +200,74 @@
     .close:hover {
       opacity: 1;
     }
+
+    input {
+      font-size: large;
+      background-color: #222;
+      color: #eee;
+      border: 1px solid #eee;
+      border-radius: .5rem;
+      padding: 1rem;
+      text-align: center;
+      font-family: 'Quicksand', sans-serif;
+    }
+    
+    .password-container {
+      font-family: 'Quicksand', sans-serif;
+      display: flex;
+      flex-direction: column;
+      
+      & button {
+        font-family: 'Quicksand', sans-serif;
+        font-size: small;
+        padding: .5rem;
+        background-color: #eee;
+        color: #222;
+      }
+    }
+
+    .hidden {
+      display: none;
+    }
+
   </style>
 </head>
 <body>
 
-  <h1>hello friend</h1>
   <div class="body-container">
-    <div></div>
-    <div id="story-text"></div>
-    <div class="choices">
-      <button onclick="
-        openMessage(0);
-        this.querySelector('img').src='open-envelope.png'
-      ">
-        <img src="envelope.png"/>
-      </button>
-      <button onclick="openMessage(1); this.querySelector('img').src='open-envelope.png'">
-        <img src="envelope.png"/>
-      </button>
-      <button onclick="openMessage(2); this.querySelector('img').src='open-envelope.png'">
-        <img src="envelope.png"/>
-      </button>
+    <div class="password-container">
+      <p>What food did I make at Daniel Cariveau's house</p>
+      <div style="display: flex; width: 100%; gap: .5rem">
+        <input style="width: 100%;" id="password" type="text">
+        <button onclick="password()">Submit</button>
+      </div>
+      <p id="helper-text" style="color: red;" class="hidden">Incorrect Answer</p>
+    </div>
+    
+    <div id="content" class="text-content hidden">
+      <div id="story-text"></div>
+      <div id="envelopes" class="choices hidden">
+        <button onclick="
+          openMessage(0);
+          this.querySelector('img').src='open-envelope.png'
+        ">
+          <img src="envelope.png"/>
+        </button>
+        <!-- <button onclick="openMessage(1); this.querySelector('img').src='open-envelope.png'">
+          <img src="envelope.png"/>
+        </button> -->
+        <button onclick="openMessage(1); this.querySelector('img').src='open-envelope.png'">
+          <img src="envelope.png"/>
+        </button>
+      </div>
+      <span id="tap-hint" class="hidden">tap envelopes to open &#10548;</span>
     </div>
   </div>
 
   <div class="overlay" id="overlay" onclick="closeOverlay(event)">
     <div class="modal">
       <div class="close" onclick="closeOverlay()">✕</div>
+      <span style="font-size: large; font-weight:bold; margin-bottom: .5rem" id="title-text"></span>
       <div id="overlay-text"></div>
     </div>
   </div>
